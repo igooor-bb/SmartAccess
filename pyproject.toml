@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "espq"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+dev = "espq.main:run_dev"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.85.1"
+uvicorn = "^0.18.3"
+python-multipart = "^0.0.5"
+opencv-python = "^4.6.0.66"
+pyzbar = "^0.1.9"
+passbook = {git = "https://github.com/devartis/passbook.git"}
+
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
