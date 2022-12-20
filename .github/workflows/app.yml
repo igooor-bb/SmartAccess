@@ -5,35 +5,30 @@ on:
     branches:
       - main
 
-defaults:
-  run:
-    working-directory: ./espq
-
 jobs:
   lint_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python 3.9
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
           python -V
-          python -m venv .venv
-          source .venv/bin/activate
           python -m pip install --upgrade pip
           python -m pip install poetry
+          poetry config virtualenvs.create false
           poetry install
       - name: Run linters
         uses: quentinguidee/pep8-action@v1
 
   snyk:
     runs-on: ubuntu-latest
-    container: snyk/snyk:python-3.9
+    container: snyk/snyk:python-3.10
     steps:
       - uses: actions/checkout@v3
 
