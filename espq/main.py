@@ -21,7 +21,7 @@ def create_pkpass(title, data):
     )
 
     passfile.logoText = title
-    passfile.serialNumber = 'Bebroid'
+    passfile.serialNumber = 'NeBebroid'
     passfile.barcode = Barcode(
         format=BarcodeFormat.QR,
         message=data,
