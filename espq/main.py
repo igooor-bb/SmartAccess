@@ -57,3 +57,7 @@ async def submit(image: bytes = File(), title: str = Form()):
 
 def run_dev():
     uvicorn.run("espq.main:app", port=8000, host='0.0.0.0', reload=True)
+
+
+def run_prod():
+    uvicorn.run("espq.main:app", port=8000, host='0.0.0.0', reload=False)
