@@ -29,18 +29,17 @@ jobs:
   snyk:
     runs-on: ubuntu-latest
     container: snyk/snyk:python-3.10
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      SNYK_CFG_API: ${{ secrets.SNYK_TOKEN }}
     steps:
       - uses: actions/checkout@v3
 
+      - name: Add Snyk ignore
+        run: snyk ignore --id=SNYK-PYTHON-M2CRYPTO-1040426
+      
       - name: Run Snyk to check for vulnerabilities
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk test --sarif-file-output=../snyk.sarif
-
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk.sarif
 
   docker:
     runs-on: ubuntu-latest
