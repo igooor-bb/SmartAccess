@@ -1,4 +1,5 @@
 from fastapi import FastAPI, File, Form, HTTPException, responses
+from fastapi.staticfiles import StaticFiles
 import uvicorn
 import cv2
 import numpy as np
@@ -69,6 +70,9 @@ async def submit(image: bytes = File(), title: str = Form()):
         file,
         headers={'Content-Disposition': 'attachment; filename="pass.pkpass"'},
     )
+
+
+app.mount("/", StaticFiles(directory="./static", html=True), name="static")
 
 
 def run_dev():
