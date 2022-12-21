@@ -11,7 +11,7 @@ import os
 app = FastAPI()
 
 pwd = os.getenv('KEY_CER_PWD')
-assert pwd != None, "Cannot load KEY_CER_PWD env"
+assert pwd is not None, "Cannot load KEY_CER_PWD env"
 
 
 def scan_qr(image: bytes):
@@ -21,7 +21,7 @@ def scan_qr(image: bytes):
     qrs = decode(image_cv)
     if len(qrs) != 1:
         return None
-    
+
     return qrs[0].data.decode()
 
 
