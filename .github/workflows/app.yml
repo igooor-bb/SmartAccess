@@ -11,10 +11,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.11"
+
+      - name: Install native dependencies
+        run: |
+          sudo apt-get install -y swig zbar-tools
 
       - name: Install dependencies
         run: |
@@ -23,8 +27,17 @@ jobs:
           python -m pip install poetry
           poetry config virtualenvs.create false
           poetry install
+
       - name: Run linters
         uses: quentinguidee/pep8-action@v1
+
+      - name: Run tests
+        env:
+          KEY_PEM: ./certs/key_test.pem
+          CERT_PEM: ./certs/certificate_test.pem
+          KEY_PEM_PASS: bebrabobra
+        run: |
+          poetry run pytest
 
   snyk:
     runs-on: ubuntu-latest

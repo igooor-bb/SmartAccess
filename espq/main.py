@@ -8,8 +8,27 @@ import tempfile
 import io
 import os
 
-pwd = os.getenv('KEY_CER_PWD')
 app = FastAPI()
+
+config = {
+    'wwdr': os.getenv('WWDR_PEM', './certs/wwdr.pem'),
+    'cert': os.getenv('CERT_PEM', './certs/certificate.pem'),
+    'key': os.getenv('KEY_PEM', './certs/key.pem'),
+    'pass': os.getenv('KEY_PEM_PASS'),
+    'port': os.getenv('PORT', '8000')
+}
+assert config['pass'] is not None, "Cannot load KEY_PEM_PASS env"
+
+
+def scan_qr(image: bytes):
+    image_np = np.asarray(bytearray(image), dtype=np.uint8)
+    image_cv = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
+
+    qrs = decode(image_cv)
+    if len(qrs) != 1:
+        return None
+
+    return qrs[0].data.decode()
 
 
 def create_pkpass(title, data):
@@ -28,36 +47,35 @@ def create_pkpass(title, data):
         messageEncoding='utf8',
     )
 
-    passfile.addFile('icon.png', open('./images/icon.png', 'rb'))
-    passfile.addFile('logo.png', open('./images/logo.png', 'rb'))
+    passfile.addFile('icon.png', open('./assets/icon.png', 'rb'))
+    passfile.addFile('logo.png', open('./assets/logo.png', 'rb'))
 
     file = tempfile.NamedTemporaryFile()
-    passfile.create('./certs/certificate.pem', './certs/key.pem',
-                    './certs/wwdr.pem', pwd, file.name)
-    return file
+    passfile.create(config['cert'], config['key'],
+                    config['wwdr'], config['pass'], file.name)
+    return io.BytesIO(file.read())
 
 
 @app.post("/api/submit")
 async def submit(image: bytes = File(), title: str = Form()):
-    image_np = np.asarray(bytearray(image), dtype=np.uint8)
-    image_cv = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
+    qr = scan_qr(image)
 
-    qrs = decode(image_cv)
-
-    if len(qrs) != 1:
+    if qr is None:
         raise HTTPException(400, "Should be exactly one QR")
 
-    file = create_pkpass(title, qrs[0].data.decode())
+    file = create_pkpass(title, qr)
 
     return responses.StreamingResponse(
-        io.BytesIO(file.read()),
+        file,
         headers={'Content-Disposition': 'attachment; filename="pass.pkpass"'},
     )
 
 
 def run_dev():
-    uvicorn.run("espq.main:app", port=8000, host='0.0.0.0', reload=True)
+    uvicorn.run("espq.main:app", port=int(
+        config['port']), host='0.0.0.0', reload=True)
 
 
 def run_prod():
-    uvicorn.run("espq.main:app", port=8000, host='0.0.0.0', reload=False)
+    uvicorn.run("espq.main:app", port=int(
+        config['port']), host='0.0.0.0', reload=False)
