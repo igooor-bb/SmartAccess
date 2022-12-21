@@ -1,16 +1,100 @@
-<!DOCTYPE html>
 <html>
-
 <head>
+  <style>
+    /* Add a gradient background color */
+    body {
+      background: linear-gradient(to right, #ffb347, #ffcc33);
+    }
 
+    /* Style the form */
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Style the input fields */
+    input[type="file"],
+    input[type="text"],
+    input[type="submit"] {
+      width: 100%;
+      height: 40px;
+      margin-bottom: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+
+    /* Style the file input field */
+    input[type="file"] {
+      appearance: none;
+      padding: 16px 8px;
+      -webkit-appearance: none;
+      background-color: #ffa64d;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-size: 18px;
+      height: 60px;
+      width: 100%;
+    }
+
+    /* Style the submit button */
+    input[type="submit"] {
+      color: white;
+      background-color: #ffa64d;
+      cursor: pointer;
+    }
+
+    /* Style the heading */
+    h1 {
+      text-align: center;
+      font-family: sans-serif;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Style the file input container */
+    .file-input {
+      position: relative;
+      overflow: hidden;
+      background-color: #ffa64d;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Style the file input text */
+    .file-input p {
+      color: white;
+      font-size: 18px;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 10px;
+    }
+  </style>
 </head>
-
 <body>
-    <form action="/api/submit" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" />
-        <input type="text" name="title" />
-        <input type="submit" value="Submit">
-    </form>
+  <form action="/api/submit" method="post" enctype="multipart/form-data">
+    <!-- Add a title -->
+    <h1>Create Apple Wallet Card</h1>
+    <!-- Make the layout vertical -->
+    <input type="file" name="image" />
+    <input type="text" name="title" placeholder="Card name" />
+    <input type="submit" value="Submit">
+  </form>
 </body>
-
 </html>
