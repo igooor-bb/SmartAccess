@@ -25,3 +25,11 @@ pip install m2crypto
 ```
 
 At this point `m2crypto` is installed, you can continue to explore the project.
+
+
+## Tips
+
+```bash
+# Create keys for testing
+openssl req -x509 -newkey rsa:4096 -keyout ./certs/key_test.pem -out ./certs/certificate_test.pem -sha256 -days 36500
+```

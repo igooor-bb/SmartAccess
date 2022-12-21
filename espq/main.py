@@ -10,8 +10,14 @@ import os
 
 app = FastAPI()
 
-pwd = os.getenv('KEY_CER_PWD')
-assert pwd is not None, "Cannot load KEY_CER_PWD env"
+config = {
+    'wwdr': os.getenv('WWDR_PEM', './certs/wwdr.pem'),
+    'cert': os.getenv('CERT_PEM', './certs/certificate.pem'),
+    'key': os.getenv('KEY_PEM', './certs/key.pem'),
+    'pass': os.getenv('KEY_PEM_PASS'),
+    'port': os.getenv('PORT', '8000')
+}
+assert config['pass'] is not None, "Cannot load KEY_PEM_PASS env"
 
 
 def scan_qr(image: bytes):
@@ -45,8 +51,8 @@ def create_pkpass(title, data):
     passfile.addFile('logo.png', open('./assets/logo.png', 'rb'))
 
     file = tempfile.NamedTemporaryFile()
-    passfile.create('./certs/certificate.pem', './certs/key.pem',
-                    './certs/wwdr.pem', pwd, file.name)
+    passfile.create(config['cert'], config['key'],
+                    config['wwdr'], config['pass'], file.name)
     return io.BytesIO(file.read())
 
 
@@ -66,8 +72,10 @@ async def submit(image: bytes = File(), title: str = Form()):
 
 
 def run_dev():
-    uvicorn.run("espq.main:app", port=8000, host='0.0.0.0', reload=True)
+    uvicorn.run("espq.main:app", port=int(
+        config['port']), host='0.0.0.0', reload=True)
 
 
 def run_prod():
-    uvicorn.run("espq.main:app", port=8000, host='0.0.0.0', reload=False)
+    uvicorn.run("espq.main:app", port=int(
+        config['port']), host='0.0.0.0', reload=False)

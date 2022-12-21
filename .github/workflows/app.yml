@@ -32,6 +32,10 @@ jobs:
         uses: quentinguidee/pep8-action@v1
 
       - name: Run tests
+        env:
+          KEY_PEM: ./certs/key_test.pem
+          CERT_PEM: ./certs/certificate_test.pem
+          KEY_PEM_PASS: bebrabobra
         run: |
           poetry run pytest
 
