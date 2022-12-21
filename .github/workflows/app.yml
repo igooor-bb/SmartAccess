@@ -16,6 +16,10 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install native dependencies
+        run: |
+          sudo apt-get install -y swig zbar-tools
+
       - name: Install dependencies
         run: |
           python -V
