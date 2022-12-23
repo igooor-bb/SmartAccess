@@ -109,7 +109,7 @@ jobs:
         id: deploy-sls-container
         uses: yc-actions/yc-sls-container-deploy@v2
         with:
-          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+          yc-sa-json-credentials: ${{ secrets.YC_SERVICE_KEY }}
           container-name: ${{ secrets.YC_CONTAINER_NAME }}
           folder-id: ${{ secrets.YC_FOLDER }}
           revision-service-account-id: ${{ secrets.YC_CONTAINER_ACC }}
