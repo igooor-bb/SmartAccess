@@ -121,4 +121,4 @@ jobs:
           revision-execution-timeout: 16
           revision-provisioned: 1
           revision-env: |-
-            KEY_CER_PWD=${{ secrets.DEPLOY_KEY_CER_PWD }}
+            KEY_PEM_PASS=${{ secrets.DEPLOY_KEY_CER_PWD }}
