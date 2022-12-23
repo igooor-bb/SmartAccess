@@ -4,6 +4,8 @@
 
 # SmartAccess
 
+![Usage](.images/usage.png)
+
 SmartAccess allows you to easily add and manage all your important QR codes, barcodes, bonus cards, and tickets in one convenient location – your Apple Wallet. With just a few taps, you can access and use these items whenever you need them.
 
 Streamline your digital life and stay organized with SmartAccess.
