@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 jobs:
   lint_and_test:
@@ -79,13 +82,43 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: Login to Yandex Cloud Docker Registry
+        uses: yc-actions/yc-cr-login@v0.1-alpha
+        with:
+            yc-sa-json-credentials: ${{ secrets.YC_SERVICE_KEY }}
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}:latest
-          platforms: linux/amd64,linux/arm64
+          tags: |-
+            ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}:${{ github.sha }}
+            cr.yandex/${{ secrets.YC_REGISTRY }}/${{ secrets.DOCKER_HUB_REPO }}:${{ github.sha }}
+          platforms: linux/amd64
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}:latest_buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}:latest_buildcache,mode=max
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy Serverless Container
+        id: deploy-sls-container
+        uses: yc-actions/yc-sls-container-deploy@v2
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+          container-name: ${{ secrets.YC_CONTAINER_NAME }}
+          folder-id: ${{ secrets.YC_FOLDER }}
+          revision-service-account-id: ${{ secrets.YC_CONTAINER_ACC }}
+          revision-cores: 1
+          revision-memory: 128Mb
+          revision-core-fraction: 5
+          revision-concurrency: 8
+          revision-image-url: cr.yandex/${{ secrets.YC_REGISTRY }}/${{ secrets.DOCKER_HUB_REPO }}:${{ github.sha }}
+          revision-execution-timeout: 16
+          revision-provisioned: 1
+          revision-env: |-
+            KEY_CER_PWD=${{ secrets.DEPLOY_KEY_CER_PWD }}
