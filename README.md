@@ -1,3 +1,7 @@
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/igooor-bb/SmartAccess/app.yml)
+![[![Docker Build Status](https://img.shields.io/docker/cloud/build/igooorbb/inno-espq-smartaccess.svg)](https://hub.docker.com/r/igooor-bb/inno-espq-smartaccess)](https://img.shields.io/docker/image-size/igooorbb/inno-espq-smartaccess)
+![License](https://img.shields.io/github/license/igooor-bb/SmartAccess)
+
 # SmartAccess
 
 SmartAccess allows you to easily add and manage all your important QR codes, barcodes, bonus cards, and tickets in one convenient location – your Apple Wallet. With just a few taps, you can access and use these items whenever you need them.
