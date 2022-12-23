@@ -8,6 +8,8 @@ SmartAccess allows you to easily add and manage all your important QR codes, bar
 
 Streamline your digital life and stay organized with SmartAccess.
 
+<img src=".images/usage.png" alt="Usage" width=55%/>
+
 ## Motivation
 
 Rather than having to install multiple apps to store different cards and tickets, or having to search through different apps to find the code or card you need, SmartAccess allows you to centralize everything in one place – your Apple Wallet. This not only saves time and effort, but also helps you stay organized and streamline your digital life.
@@ -18,7 +20,7 @@ One of the unique features of SmartAccess is that it works as a web service acce
 
 ### Installation
 
-[Install poetry](https://python-poetry.org/docs/)
+You need to [install poetry](https://python-poetry.org/docs/) and then follow these steps to install the dependencies:
 
 ```bash
 # Use python3.11 project env
@@ -30,6 +32,10 @@ poetry install
 # Run dev server
 poetry run dev
 ```
+
+### Generate Apple Wallet PassKit keys
+
+You can use [our wiki page](../../wiki/How-to-generate-keys-for-Apple-Wallet-PassKit) to get all the keys you need for Apple Wallet PassKit
 
 ### Custom SSL/TLS Certificate and Key Pair for testing
 
