@@ -73,6 +73,7 @@ At this point `m2crypto` is installed, you can continue to explore the project.
 # Create keys for testing
 openssl req -x509 -newkey rsa:4096 -keyout ./certs/key_test.pem -out ./certs/certificate_test.pem -sha256 -days 36500
 ```
+
 ## Contribution
 
 We welcome contributions to SmartAccess! If you have an idea for a new feature or have found a bug, please open an issue or submit a pull request.
