@@ -85,8 +85,6 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}:r${{ github.run_number }}a${{ github.run_attempt }}
             cr.yandex/${{ secrets.YC_REGISTRY }}/${{ secrets.DOCKER_HUB_REPO }}:r${{ github.run_number }}a${{ github.run_attempt }}
           platforms: linux/amd64
-          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}:latest_buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_REPO }}:latest_buildcache,mode=max
 
   deploy:
     runs-on: ubuntu-latest
