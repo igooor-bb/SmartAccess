@@ -11,7 +11,7 @@ run = "espq:run_prod"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.85.1"
+fastapi = "^0.109.1"
 uvicorn = "^0.18.3"
 python-multipart = "^0.0.5"
 opencv-python-headless = "^4.6.0.66"
