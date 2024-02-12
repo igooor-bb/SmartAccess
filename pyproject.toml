@@ -13,7 +13,7 @@ run = "espq:run_prod"
 python = "^3.11"
 fastapi = "^0.85.1"
 uvicorn = "^0.18.3"
-python-multipart = "^0.0.5"
+python-multipart = "^0.0.7"
 opencv-python-headless = "^4.6.0.66"
 pyzbar = "^0.1.9"
 passbook = {git = "https://github.com/devartis/passbook.git"}
